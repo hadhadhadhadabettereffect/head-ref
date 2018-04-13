@@ -2,6 +2,7 @@ const path = require("path");
 const gulp = require("gulp");
 const pug = require("gulp-pug");
 const flatten = require("gulp-flatten");
+const connect = require("gulp-connect");
 const source = require("vinyl-source-stream");
 const browserify = require("browserify");
 const tsify = require("tsify");
@@ -10,11 +11,19 @@ const package = require("./package.json");
 const threeDir = "./node_modules/three/";
 const threeFiles = [
     "node_modules/three/build/three.js",
-    "node_modules/three/examples/js/controls/OrbitControls.js"
+    "node_modules/three/examples/js/controls/OrbitControls.js",
+    "node_modules/three/examples/js/loaders/OBJLoader.js"
 ];
 // relative paths to three.js files from dist/index.html
 var jsImports = threeFiles.map((filePath) => {
     return "js/" + path.basename(filePath);
+});
+
+gulp.task("connect", function () {
+    connect.server({
+        root: "dist",
+        livereload: true
+    });
 });
 
 gulp.task("js", function () {
@@ -28,7 +37,8 @@ gulp.task("js", function () {
     .plugin(tsify)
     .bundle()
     .pipe(source("main.js"))
-    .pipe(gulp.dest("dist/js"));
+    .pipe(gulp.dest("dist/js"))
+    .pipe(connect.reload());
 });
 
 gulp.task("html", function () {
@@ -40,7 +50,8 @@ gulp.task("html", function () {
                 jsImports: jsImports
             }
         }))
-        .pipe(gulp.dest("dist"));
+        .pipe(gulp.dest("dist"))
+        .pipe(connect.reload());
 });
 
 // copy three.js files to dist dir
@@ -50,4 +61,9 @@ gulp.task("static", function () {
         .pipe(gulp.dest("dist/js"));
 });
 
-gulp.task("default", ["static", "html", "js"]);
+gulp.task("watch", function () {
+    gulp.watch(["./src/*.ts"], ["js"]);
+    gulp.watch(["./src/*.pug"], ["html"]);
+});
+
+gulp.task("default", ["static", "html", "js", "connect", "watch"]);
