@@ -6,13 +6,13 @@
   "author": "Eric Birkeland",
   "license": "ISC",
   "devDependencies": {
-    "browserify": "^16.1.1",
     "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.1",
     "gulp-connect": "^5.5.0",
     "gulp-flatten": "^0.4.0",
     "gulp-pug": "^3.3.0",
+    "gulp-typescript": "^4.0.2",
     "three": "^0.91.0",
-    "tsify": "^3.0.4",
     "typescript": "^2.8.1",
     "vinyl-source-stream": "^2.0.0"
   }

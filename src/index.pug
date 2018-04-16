@@ -3,8 +3,8 @@ html
     head
         title=title
         style.
-            body { margin: 0; }
-            canvas { width: 100%; height: 100%; }
+            body{margin:0}
+            canvas{position:fixed;top:0;left:0;bottom:0;right:0}
     body
         each jsFile in jsImports
             script(src=jsFile)

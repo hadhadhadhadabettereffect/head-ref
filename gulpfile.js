@@ -3,16 +3,19 @@ const gulp = require("gulp");
 const pug = require("gulp-pug");
 const flatten = require("gulp-flatten");
 const connect = require("gulp-connect");
+const concat = require("gulp-concat");
+const ts = require("gulp-typescript");
 const source = require("vinyl-source-stream");
-const browserify = require("browserify");
-const tsify = require("tsify");
+// const browserify = require("browserify");
+// const tsify = require("tsify");
 const package = require("./package.json");
 
 const threeDir = "./node_modules/three/";
 const threeFiles = [
     "node_modules/three/build/three.js",
     "node_modules/three/examples/js/controls/OrbitControls.js",
-    "node_modules/three/examples/js/loaders/OBJLoader.js"
+    "node_modules/three/examples/js/loaders/OBJLoader.js",
+    "node_modules/three/examples/js/Detector.js"
 ];
 // relative paths to three.js files from dist/index.html
 var jsImports = threeFiles.map((filePath) => {
@@ -26,19 +29,18 @@ gulp.task("connect", function () {
     });
 });
 
-gulp.task("js", function () {
-    return browserify({
-        basedir: ".",
-        debug: true,
-        entries: ["src/main.ts"],
-        cache: {},
-        packageCache: {}
-    })
-    .plugin(tsify)
-    .bundle()
-    .pipe(source("main.js"))
-    .pipe(gulp.dest("dist/js"))
-    .pipe(connect.reload());
+gulp.task("ts", function () {
+    var tsResult = gulp.src([
+            "src/js/globals.ts",
+            "src/js/lights.ts",
+            "src/js/main.ts"])
+        .pipe(concat("main.ts"))
+        .pipe(ts({
+            out: "main.js"
+        }));
+    return tsResult.js
+        .pipe(gulp.dest("./dist/js"))
+        .pipe(connect.reload());
 });
 
 gulp.task("html", function () {
@@ -62,8 +64,8 @@ gulp.task("static", function () {
 });
 
 gulp.task("watch", function () {
-    gulp.watch(["./src/*.ts"], ["js"]);
+    gulp.watch(["./src/js/*.ts"], ["ts"]);
     gulp.watch(["./src/*.pug"], ["html"]);
 });
 
-gulp.task("default", ["static", "html", "js", "connect", "watch"]);
+gulp.task("default", ["static", "html", "ts", "connect", "watch"]);
