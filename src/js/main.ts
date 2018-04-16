@@ -10,11 +10,13 @@ function init () {
     renderer.setSize( W_WIDTH, W_HEIGHT );
     container = renderer.domElement;
     camera = new THREE.PerspectiveCamera( 75, W_WIDTH/W_HEIGHT, 0.1, 1000 );
-    camera.position.z = 5;
-
+    camera.position.z = 10;
+    
     controls = new THREE.OrbitControls( camera, container );
     controls.enableDamping = true; 
     controls.dampingFactor = 0.25;
+    controls.maxDistance = 30;
+    controls.minDistance = 2;
 
     raycaster = new THREE.Raycaster();
     mouse = new THREE.Vector2();
@@ -38,11 +40,11 @@ function init () {
 
 function animate() {
     requestAnimationFrame( animate );
-    controls.update();
     render();
 }
 
 function render() {
+    controls.update();
 	raycaster.setFromCamera( mouse, camera );
     if (selected) {
         container.style.cursor = "move";
@@ -51,18 +53,20 @@ function render() {
         if (intersects.length > 0) {
             if (hovered != intersects[0]) {
                 hovered = intersects[0].object;
-                hovered.material.color.set(0xff0000);
+                plane.setFromNormalAndCoplanarPoint( camera.getWorldDirection( plane.normal ), lamp.position );
+
+                hovered.material.color.set(0xffdd22);
                 container.style.cursor = "pointer";
                 controls.enabled = false;
-                if ( raycaster.ray.intersectPlane(plane, intersection) ) {
-                    offset.copy(intersection).sub(lamp.position);
-                }
+                
             }
         } else {
-            hovered = null;
-            container.style.cursor = "default";
-            controls.enabled = true;
-            orb.material.color.set(0xffaa22);
+            if (hovered !== null) {
+                hovered = null;
+                container.style.cursor = "default";
+                controls.enabled = true;
+                orb.material.color.set(0xffaa22);
+            }
         }
     }
 	renderer.render( scene, camera );
@@ -84,11 +88,14 @@ function onMouseMove (event) {
 
 function onMouseDown (event) {
     selected = hovered;
+    if (selected !== null) {
+        if ( raycaster.ray.intersectPlane(plane, intersection) ) {
+            offset.copy(intersection).sub(lamp.position);
+        }
+    }
 }
 
 function onMouseUp () {
-    container.style.cursor = "pointer";
-    controls.enabled = true;
     selected = null;
 }
 
