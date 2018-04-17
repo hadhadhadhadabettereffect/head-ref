@@ -29,7 +29,7 @@ function init () {
     document.body.appendChild( container );
     // loading basic planes model
     new THREE.OBJLoader().load(
-        'models/planes.obj',
+        'dist/models/planes.obj',
         (obj) => scene.add(obj)
     );
     window.addEventListener( 'resize', onWindowResize, false );

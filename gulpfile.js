@@ -19,12 +19,12 @@ const threeFiles = [
 ];
 // relative paths to three.js files from dist/index.html
 var jsImports = threeFiles.map((filePath) => {
-    return "js/" + path.basename(filePath);
+    return "dist/js/" + path.basename(filePath);
 });
 
 gulp.task("connect", function () {
     connect.server({
-        root: "dist",
+        root: ".",
         livereload: true
     });
 });
@@ -56,11 +56,11 @@ gulp.task("html", function () {
         .pipe(pug({
             data: {
                 title: package.name,
-                mainjs: "js/main.js",
+                mainjs: "dist/js/main.js",
                 jsImports: jsImports
             }
         }))
-        .pipe(gulp.dest("dist"))
+        .pipe(gulp.dest("."))
         .pipe(connect.reload());
 });
 
