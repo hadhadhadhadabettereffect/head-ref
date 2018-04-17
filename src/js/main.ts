@@ -99,7 +99,7 @@ function onMouseUp () {
     selected = null;
 }
 
-function onWindowResize() {
+function onWindowResize () {
     W_HEIGHT = window.innerHeight;
     W_WIDTH = window.innerWidth;
 

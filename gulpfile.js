@@ -5,14 +5,14 @@ const flatten = require("gulp-flatten");
 const connect = require("gulp-connect");
 const concat = require("gulp-concat");
 const ts = require("gulp-typescript");
+const uglify = require("gulp-uglify");
+const pump = require("pump");
 const source = require("vinyl-source-stream");
-// const browserify = require("browserify");
-// const tsify = require("tsify");
 const package = require("./package.json");
 
 const threeDir = "./node_modules/three/";
 const threeFiles = [
-    "node_modules/three/build/three.js",
+    "node_modules/three/build/three.min.js",
     "node_modules/three/examples/js/controls/OrbitControls.js",
     "node_modules/three/examples/js/loaders/OBJLoader.js",
     "node_modules/three/examples/js/Detector.js"
@@ -43,6 +43,14 @@ gulp.task("ts", function () {
         .pipe(connect.reload());
 });
 
+gulp.task("uglify", ["static"], function (cb) {
+    pump([
+        gulp.src("dist/js/*.js"),
+        uglify({ output: { comments: /@author/ }}),
+        gulp.dest("dist/js")
+    ], cb);
+});
+
 gulp.task("html", function () {
     return gulp.src("src/index.pug")
         .pipe(pug({
@@ -67,5 +75,7 @@ gulp.task("watch", function () {
     gulp.watch(["./src/js/*.ts"], ["ts"]);
     gulp.watch(["./src/*.pug"], ["html"]);
 });
+
+gulp.task("build", ["html", "ts", "uglify"]);
 
 gulp.task("default", ["static", "html", "ts", "connect", "watch"]);
