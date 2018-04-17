@@ -7,6 +7,7 @@
     "type": "git",
     "url": "git+https://github.com/hadhadhadhadabettereffect/head-ref.git"
   },
+  "homepage": "https://hadhadhadhadabettereffect.github.io/head-ref/",
   "license": "ISC",
   "devDependencies": {
     "gulp": "^3.9.1",
