@@ -5,6 +5,8 @@ html
         link(rel="stylesheet" href="dist/main.css")
     body
         #presets
+            #presets__tab PRESETS
+            #presets__inner
         each jsFile in jsImports
             script(src=jsFile)
         script(src=mainjs)

@@ -12,6 +12,7 @@ const uglify = require("gulp-uglify");
 // postcss plugins
 const autoprefixer = require("autoprefixer");
 const cssnano = require("cssnano");
+const precss = require("precss");
 const atImport = require("postcss-import");
 // local paths
 const package = require("./package.json");
@@ -38,6 +39,7 @@ gulp.task("connect", function () {
 gulp.task("css", function () {
     var plugins = [
         atImport(),
+        precss(),
         autoprefixer(),
         cssnano()
     ];
