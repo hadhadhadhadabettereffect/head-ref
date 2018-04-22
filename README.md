@@ -8,3 +8,4 @@ Click and drag to background to rotate the camera.
 ## local setup
 `npm install gulp-cli -g`
 `npm install`
+default `gulp` task watches for changes in src and starts servers on localhost:8080
