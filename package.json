@@ -10,6 +10,7 @@
   "homepage": "https://hadhadhadhadabettereffect.github.io/head-ref/",
   "license": "ISC",
   "devDependencies": {
+    "autoprefixer": "^8.3.0",
     "cssnano": "^3.10.0",
     "gulp": "^3.9.1",
     "gulp-concat": "^2.6.1",
@@ -19,6 +20,7 @@
     "gulp-pug": "^3.3.0",
     "gulp-typescript": "^4.0.2",
     "gulp-uglify": "^3.0.0",
+    "postcss-import": "^11.1.0",
     "pump": "^3.0.0",
     "three": "^0.91.0",
     "typescript": "^2.8.1",

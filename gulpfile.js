@@ -1,4 +1,6 @@
 const path = require("path");
+const pump = require("pump");
+// gulp modules
 const gulp = require("gulp");
 const pug = require("gulp-pug");
 const flatten = require("gulp-flatten");
@@ -7,11 +9,12 @@ const concat = require("gulp-concat");
 const postcss = require("gulp-postcss");
 const ts = require("gulp-typescript");
 const uglify = require("gulp-uglify");
+// postcss plugins
+const autoprefixer = require("autoprefixer");
 const cssnano = require("cssnano");
-const pump = require("pump");
-const source = require("vinyl-source-stream");
+const atImport = require("postcss-import");
+// local paths
 const package = require("./package.json");
-
 const threeDir = "./node_modules/three/";
 const threeFiles = [
     "node_modules/three/build/three.min.js",
@@ -24,6 +27,7 @@ var jsImports = threeFiles.map((filePath) => {
     return "dist/js/" + path.basename(filePath);
 });
 
+
 gulp.task("connect", function () {
     connect.server({
         root: ".",
@@ -32,7 +36,11 @@ gulp.task("connect", function () {
 });
 
 gulp.task("css", function () {
-    var plugins = [ cssnano() ];
+    var plugins = [
+        atImport(),
+        autoprefixer(),
+        cssnano()
+    ];
     return gulp.src("./src/styles/main.css")
         .pipe(postcss(plugins))
         .pipe(gulp.dest("./dist"))
