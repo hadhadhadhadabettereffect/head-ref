@@ -17,6 +17,8 @@ function init () {
     controls.dampingFactor = 0.25;
     controls.maxDistance = 30;
     controls.minDistance = 2;
+    controls.rotateSpeed = 0.125;
+    controls.panSpeed = 0.125;
 
     raycaster = new THREE.Raycaster();
     mouse = new THREE.Vector2();
