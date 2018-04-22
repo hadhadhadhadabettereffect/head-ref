@@ -33,6 +33,7 @@ gulp.task("ts", function () {
     var tsResult = gulp.src([
             "src/js/globals.ts",
             "src/js/lights.ts",
+            "src/js/presets.ts",
             "src/js/main.ts"])
         .pipe(concat("main.ts"))
         .pipe(ts({
