@@ -10,10 +10,12 @@
   "homepage": "https://hadhadhadhadabettereffect.github.io/head-ref/",
   "license": "ISC",
   "devDependencies": {
+    "cssnano": "^3.10.0",
     "gulp": "^3.9.1",
     "gulp-concat": "^2.6.1",
     "gulp-connect": "^5.5.0",
     "gulp-flatten": "^0.4.0",
+    "gulp-postcss": "^7.0.1",
     "gulp-pug": "^3.3.0",
     "gulp-typescript": "^4.0.2",
     "gulp-uglify": "^3.0.0",

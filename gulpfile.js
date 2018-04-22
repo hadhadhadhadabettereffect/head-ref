@@ -4,8 +4,10 @@ const pug = require("gulp-pug");
 const flatten = require("gulp-flatten");
 const connect = require("gulp-connect");
 const concat = require("gulp-concat");
+const postcss = require("gulp-postcss");
 const ts = require("gulp-typescript");
 const uglify = require("gulp-uglify");
+const cssnano = require("cssnano");
 const pump = require("pump");
 const source = require("vinyl-source-stream");
 const package = require("./package.json");
@@ -27,6 +29,14 @@ gulp.task("connect", function () {
         root: ".",
         livereload: true
     });
+});
+
+gulp.task("css", function () {
+    var plugins = [ cssnano() ];
+    return gulp.src("./src/styles/main.css")
+        .pipe(postcss(plugins))
+        .pipe(gulp.dest("./dist"))
+        .pipe(connect.reload());
 });
 
 gulp.task("ts", function () {
@@ -74,9 +84,10 @@ gulp.task("static", function () {
 
 gulp.task("watch", function () {
     gulp.watch(["./src/js/*.ts"], ["ts"]);
+    gulp.watch(["./src/styles/*.css"], ["css"]);
     gulp.watch(["./src/*.pug"], ["html"]);
 });
 
-gulp.task("build", ["html", "ts", "uglify"]);
+gulp.task("build", ["html", "css", "ts", "uglify"]);
 
-gulp.task("default", ["static", "html", "ts", "connect", "watch"]);
+gulp.task("default", ["static", "html", "css", "ts", "connect", "watch"]);
