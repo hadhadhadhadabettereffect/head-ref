@@ -1,6 +1,5 @@
-- var n = 0;
 #presets
     #presets__tab PRESETS
     #presets__inner
-        while n < 3
-            div(class="preset" data-preset=+n++)
+        each name, index in ["front", "side", "3/4"]
+            div(class="preset" data-preset=index)= name

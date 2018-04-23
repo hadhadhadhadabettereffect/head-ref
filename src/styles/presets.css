@@ -7,8 +7,8 @@ $tab-width: 90px;
 $tab-height: 32px;
 $tab-border-radius: 6px;
 
-$preset-width: 100px;
-$preset-height: 100px;
+$preset-width: 80px;
+$preset-height: 80px;
 
 #presets {
     position: fixed;
@@ -51,7 +51,8 @@ $preset-height: 100px;
 .preset {
     width: $preset-width;
     height: $preset-height;
-    background: white;
     margin: 20px 10px;
+    padding: 8px;
     cursor: pointer;
+    border: 1px solid;
 }
