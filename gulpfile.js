@@ -51,6 +51,7 @@ gulp.task("css", function () {
 
 gulp.task("ts", function () {
     var tsResult = gulp.src([
+            "src/js/defs.ts",
             "src/js/globals.ts",
             "src/js/lights.ts",
             "src/js/presets.ts",
