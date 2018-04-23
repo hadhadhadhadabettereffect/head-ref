@@ -1,15 +1,21 @@
 const path = require("path");
+const pump = require("pump");
+// gulp modules
 const gulp = require("gulp");
 const pug = require("gulp-pug");
 const flatten = require("gulp-flatten");
 const connect = require("gulp-connect");
 const concat = require("gulp-concat");
+const postcss = require("gulp-postcss");
 const ts = require("gulp-typescript");
 const uglify = require("gulp-uglify");
-const pump = require("pump");
-const source = require("vinyl-source-stream");
+// postcss plugins
+const autoprefixer = require("autoprefixer");
+const cssnano = require("cssnano");
+const precss = require("precss");
+const atImport = require("postcss-import");
+// local paths
 const package = require("./package.json");
-
 const threeDir = "./node_modules/three/";
 const threeFiles = [
     "node_modules/three/build/three.min.js",
@@ -22,6 +28,7 @@ var jsImports = threeFiles.map((filePath) => {
     return "dist/js/" + path.basename(filePath);
 });
 
+
 gulp.task("connect", function () {
     connect.server({
         root: ".",
@@ -29,10 +36,25 @@ gulp.task("connect", function () {
     });
 });
 
+gulp.task("css", function () {
+    var plugins = [
+        atImport(),
+        precss(),
+        autoprefixer(),
+        cssnano()
+    ];
+    return gulp.src("./src/styles/main.css")
+        .pipe(postcss(plugins))
+        .pipe(gulp.dest("./dist"))
+        .pipe(connect.reload());
+});
+
 gulp.task("ts", function () {
     var tsResult = gulp.src([
+            "src/js/defs.ts",
             "src/js/globals.ts",
             "src/js/lights.ts",
+            "src/js/presets.ts",
             "src/js/main.ts"])
         .pipe(concat("main.ts"))
         .pipe(ts({
@@ -52,7 +74,7 @@ gulp.task("uglify", ["static"], function (cb) {
 });
 
 gulp.task("html", function () {
-    return gulp.src("src/index.pug")
+    return gulp.src("./src/html/index.pug")
         .pipe(pug({
             data: {
                 title: package.name,
@@ -73,9 +95,10 @@ gulp.task("static", function () {
 
 gulp.task("watch", function () {
     gulp.watch(["./src/js/*.ts"], ["ts"]);
-    gulp.watch(["./src/*.pug"], ["html"]);
+    gulp.watch(["./src/styles/*.css"], ["css"]);
+    gulp.watch(["./src/html/*.pug"], ["html"]);
 });
 
-gulp.task("build", ["html", "ts", "uglify"]);
+gulp.task("build", ["html", "css", "ts", "uglify"]);
 
-gulp.task("default", ["static", "html", "ts", "connect", "watch"]);
+gulp.task("default", ["static", "html", "css", "ts", "connect", "watch"]);

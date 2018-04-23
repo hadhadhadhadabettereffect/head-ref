@@ -1,0 +1,58 @@
+$presets-bg: #587109;
+$presets-text-color: #d0d0d0;
+
+$drawer-height: 150px;
+
+$tab-width: 90px;
+$tab-height: 32px;
+$tab-border-radius: 6px;
+
+$preset-width: 80px;
+$preset-height: 80px;
+
+#presets {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: calc($drawer-height * -1 - $tab-border-radius);
+    height: calc($drawer-height + $tab-height);
+    z-index: 1;
+    user-select: none;
+    cursor: default;
+    color: $presets-text-color;
+    transition: bottom .325s cubic-bezier(.6,-.1,.25,1.8);
+    will-change: bottom;
+
+    &:hover {
+        bottom: -30px;
+    }
+}
+
+#presets__tab {
+    width: $tab-width;
+    height: calc($tab-height + $tab-border-radius * 2);
+    line-height: calc($tab-height - 5px);
+    margin: 0 auto;
+    border-radius: $tab-border-radius;
+    background: $presets-bg;
+    text-align: center;
+}
+
+#presets__inner {
+    position: absolute;
+    top: calc($tab-height - $tab-border-radius);
+    width: 100%;
+    height: $drawer-height;
+    background: $presets-bg;
+    display: flex;
+    justify-content: center;
+}
+
+.preset {
+    width: $preset-width;
+    height: $preset-height;
+    margin: 20px 10px;
+    padding: 8px;
+    cursor: pointer;
+    border: 1px solid;
+}

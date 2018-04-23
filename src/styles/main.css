@@ -1,0 +1,14 @@
+@import "typography";
+@import "presets";
+
+body {
+    margin:0;
+}
+
+canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}

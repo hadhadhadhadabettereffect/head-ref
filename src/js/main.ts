@@ -17,6 +17,8 @@ function init () {
     controls.dampingFactor = 0.25;
     controls.maxDistance = 30;
     controls.minDistance = 2;
+    controls.rotateSpeed = 0.125;
+    controls.panSpeed = 0.125;
 
     raycaster = new THREE.Raycaster();
     mouse = new THREE.Vector2();
@@ -54,7 +56,6 @@ function render() {
             if (hovered != intersects[0]) {
                 hovered = intersects[0].object;
                 plane.setFromNormalAndCoplanarPoint( camera.getWorldDirection( plane.normal ), lamp.position );
-
                 hovered.material.color.set(0xffdd22);
                 container.style.cursor = "pointer";
                 controls.enabled = false;
