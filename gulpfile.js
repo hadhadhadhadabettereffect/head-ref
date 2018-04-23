@@ -73,7 +73,7 @@ gulp.task("uglify", ["static"], function (cb) {
 });
 
 gulp.task("html", function () {
-    return gulp.src("src/index.pug")
+    return gulp.src("./src/html/index.pug")
         .pipe(pug({
             data: {
                 title: package.name,
@@ -95,7 +95,7 @@ gulp.task("static", function () {
 gulp.task("watch", function () {
     gulp.watch(["./src/js/*.ts"], ["ts"]);
     gulp.watch(["./src/styles/*.css"], ["css"]);
-    gulp.watch(["./src/*.pug"], ["html"]);
+    gulp.watch(["./src/html/*.pug"], ["html"]);
 });
 
 gulp.task("build", ["html", "css", "ts", "uglify"]);

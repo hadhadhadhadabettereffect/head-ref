@@ -1,9 +1,14 @@
 $presets-bg: #587109;
 $presets-text-color: #d0d0d0;
+
 $drawer-height: 150px;
-$tab-height: 32px;
+
 $tab-width: 90px;
+$tab-height: 32px;
 $tab-border-radius: 6px;
+
+$preset-width: 100px;
+$preset-height: 100px;
 
 #presets {
     position: fixed;
@@ -39,4 +44,14 @@ $tab-border-radius: 6px;
     width: 100%;
     height: $drawer-height;
     background: $presets-bg;
+    display: flex;
+    justify-content: center;
+}
+
+.preset {
+    width: $preset-width;
+    height: $preset-height;
+    background: white;
+    margin: 20px 10px;
+    cursor: pointer;
 }
